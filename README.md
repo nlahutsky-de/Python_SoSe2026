@@ -2,6 +2,7 @@
 ## Team Members:
 Natalie Christine Lahutsky, 0523641, Civil Systems Engineering
 
+Seychelle Ann Dagus, 0508078, Civil Systems Engineering
 ## Description:
 
 ## Getting Started:
