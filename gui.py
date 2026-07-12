@@ -50,11 +50,10 @@ class FinanceApp:
         self.cat_combobox.grid(row=1, column=1, padx=5, pady=5)
         self._update_category_combobox()
 
-        # Date picker
+        # Date Input
         ttk.Label(input_frame, text="Date (YYYY-MM-DD):").grid(row=1, column=2, sticky=tk.W, pady=5)
         self.date_entry = ttk.Entry(input_frame, width=15)
         self.date_entry.grid(row=1, column=3, padx=5, pady=5)
-        # Pre-populate with current local hardware time format pattern
         self.date_entry.insert(0, datetime.now().strftime("%Y-%m-%d"))
 
         # Buttons
