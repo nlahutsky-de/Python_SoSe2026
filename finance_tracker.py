@@ -19,7 +19,7 @@ class ExpenseManager:
 
     # Add a new income or expense    
     def add_transaction(self, t_type: str, description: str, amount: float, 
-                        year: str, month: str, category: str = None) -> Transaction:
+                        date: str, category: str) -> Transaction:
         
         if category is None or category == "Auto-Categorize":
             category = self.categorize_description(description, t_type)
@@ -27,7 +27,7 @@ class ExpenseManager:
         if category not in self._category_rules:
             self._category_rules[category] = set()
 
-        transaction = Transaction(self._next_number, description, category, amount, year, month)
+        transaction = Transaction(self._next_number, description, category, amount, date)
 
         # Save whether it is income or expense
         transaction.t_type = t_type 
@@ -43,14 +43,13 @@ class ExpenseManager:
         return False
 
     def update_transaction(self, number: int, new_type: str, new_description: str, new_amount: float, 
-                           new_year: str, new_month: str, new_category: str) -> bool:
+                           new_date: str, new_category: str) -> bool:
         if number in self.transactions:
             t = self.transactions[number]
             t.t_type = new_type
             t.description = new_description
             t.amount = float(new_amount)
-            t.year = new_year
-            t.month = new_month
+            t.date = new_date
             t.category = new_category
             return True
         return False
@@ -88,9 +87,7 @@ class ExpenseManager:
 
     # Add up expenses for each category
     def summarize_by_category(self) -> dict:
-
         summary = {}
-
         for t in self.transactions.values():
             if t.t_type == "Expense":
                 if t.category not in summary:
@@ -100,10 +97,11 @@ class ExpenseManager:
 
     def highest_spending_category(self) -> str:
         summary = self.summarize_by_category()
-
         if not summary:
             return "None"
-        return max(summary, key=summary.get)
+        max_value = max(summary.values())
+        highest_cats = [cat for cat, amt in summary.items() if amt == max_value]
+        return ", ".join(highest_cats)
 
     # Group income vs expense totals by month periods.
     def summarize_by_timeline(self) -> dict:
