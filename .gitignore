@@ -2,3 +2,16 @@
 */.ipynb_checkpoints/*
 *.code-workspace
 .vscode/
+# Ignore Python compiled bytecode (the cache)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore local virtual environments (if you use them)
+.venv/
+venv/
+env/
+
+# Ignore local IDE settings
+.vscode/

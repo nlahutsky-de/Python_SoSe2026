@@ -1,5 +1,6 @@
 # finance_tracker.py
 from models import Transaction
+import re
 
 CATEGORY_RULES = {
     "Groceries": {"grocery", "supermarket", "food"},
@@ -20,15 +21,13 @@ class ExpenseManager:
     # Add a new income or expense    
     def add_transaction(self, t_type: str, description: str, amount: float, 
                         date: str, category: str) -> Transaction:
-        
+        # determine category, else, learn new keywords if manually assigned
         if category is None or category == "Auto-Categorize":
             category = self.categorize_description(description, t_type)
-            
-        if category not in self._category_rules:
-            self._category_rules[category] = set()
-
+        else:
+            self.assign_keywords_to_category(description, category) 
+        # create transaction and store it
         transaction = Transaction(self._next_number, description, category, amount, date)
-
         # Save whether it is income or expense
         transaction.t_type = t_type 
         
@@ -54,19 +53,46 @@ class ExpenseManager:
             return True
         return False
 
+    
+    ''' the current category management isn't working correctly. Category keywords are not updated,
+    and there's no ability to create new categories in the GUI. The following section breaks down category management
+    in various objects following the single responsibility principle.'''
+
     def categorize_description(self, description: str, t_type: str) -> str:
         # checks the description against the category rules and returns the appropriate category
         if t_type == "Income":
             return "Salary/Inflow"
-        
-        desc_lower = description.lower()
-
+        desc_lower = self.extract_keywords(description)
         for category, keywords in self._category_rules.items():
-            if any(keyword in desc_lower for keyword in keywords):
+            if desc_lower.intersection(keywords):
                 return category
-            
         return "Other"
 
+    def create_category(self, category_name: str, keywords: None) -> None:
+        if category_name not in self._category_rules:
+            # if no keywords are created, assign an empty set to the category
+            self._category_rules[category_name] = keywords if keywords is not None else set()
+
+    def extract_keywords(self, description: str) -> set:
+        # Extract keywords from the description for categorization
+        words = re.findall(r'\b[a-z]{3,}\b', description.lower())
+        stop_words = {"the", "and", "for", "with", "from", "run", "store", "bill", "payment"}
+        return {word for word in words if word not in stop_words}
+    
+    def add_keywords_to_category(self, category_name: str, keywords: set) -> None:
+        if category_name in self._category_rules:
+            self._category_rules[category_name].update(keywords)
+        else:
+            self._category_rules[category_name] = keywords
+
+    def assign_keywords_to_category(self, description: str, category_name: str) -> None:
+        keywords = self.extract_keywords(description)
+        if keywords:
+            self.add_keywords_to_category(category_name, keywords)
+    ''' end of category management section '''
+
+    ''' business functions section: the following methods are used to calculate totals, 
+    summarize by category, and summarize by timeline.'''
     # Calculate total income, expenses, and savings.
     def calculate_totals(self) -> dict:
 

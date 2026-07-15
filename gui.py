@@ -1,6 +1,6 @@
 # gui.py
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, simpledialog
 import re
 from datetime import datetime
 from finance_tracker import ExpenseManager
@@ -201,10 +201,66 @@ class FinanceApp:
         edit_date_field.insert(0, t_obj.date)
 
         ttk.Label(main_frame, text="Category:").grid(row=5, column=0, sticky=tk.W, pady=5)
+        edit_cat_frame = ttk.Frame(main_frame)
+        edit_cat_frame.grid(row=5, column=1, pady=5, sticky=tk.W)
+
         all_cats = list(self.manager._category_rules.keys()) + ["Other", "Salary/Inflow"]
-        edit_cat = ttk.Combobox(main_frame, values=all_cats, state="readonly")
+        edit_cat = ttk.Combobox(main_frame, values=all_cats, state="readonly", width=18)
         edit_cat.set(t_obj.category)
         edit_cat.grid(row=5, column=1, pady=5)
+
+        # This function handles adding categories inside the edit box
+        def add_category_from_edit():
+            new_cat = simpledialog.askstring(
+                "New Category", 
+                "Enter name for the new category:",
+                parent=edit_win  # Keeps the dialog tied to the edit popup window
+            )
+            if not new_cat:
+                return
+            
+            new_cat = new_cat.strip().title()
+            if not new_cat:
+                messagebox.showwarning("Warning", "Category name cannot be empty.", parent=edit_win)
+                return
+            if new_cat in self.manager._category_rules:
+                messagebox.showwarning("Warning", f"'{new_cat}' already exists!", parent=edit_win)
+                return
+
+            keywords_str = simpledialog.askstring(
+                "Category Keywords", 
+                f"Enter starting keywords for '{new_cat}' (separated by commas) or leave blank:",
+                parent=edit_win
+            )
+            
+            keywords_set = set()
+            if keywords_str:
+                keywords_set = {kw.strip().lower() for kw in keywords_str.split(",") if kw.strip()}
+
+            # Save backend rules
+            self.manager.create_category(new_cat, set())
+            if keywords_set:
+                self.manager.add_keywords_to_category(new_cat, keywords_set)
+
+            # Update the main window combobox values
+            self._update_category_combobox()
+
+            # Refresh local edit combobox values
+            updated_cats = list(self.manager._category_rules.keys()) + ["Other", "Salary/Inflow"]
+            edit_cat['values'] = updated_cats
+            edit_cat.set(new_cat) # Set newly created category as chosen
+            
+            messagebox.showinfo("Success", f"Category '{new_cat}' created!", parent=edit_win)
+
+        # Quick small "+" button right in the edit layout
+        add_cat_row_frame = ttk.Frame(main_frame)
+        add_cat_row_frame.grid(row=6, column=1, pady=2, sticky=tk.W)
+
+        add_edit_cat_btn = ttk.Button(add_cat_row_frame, text="+", width=3, command=add_category_from_edit)
+        add_edit_cat_btn.pack(side=tk.LEFT)
+
+        helper_lbl = ttk.Label(add_cat_row_frame, text=" Create New Category", font=("Helvetica", 9, "italic"), foreground="gray")
+        helper_lbl.pack(side=tk.LEFT, padx=5)
 
         def save_changes():
             date_input = edit_date_field.get().strip()
@@ -225,7 +281,7 @@ class FinanceApp:
             edit_win.destroy()
 
         btn_box = ttk.Frame(main_frame)
-        btn_box.grid(row=6, column=0, columnspan=2, pady=10, sticky=tk.E)
+        btn_box.grid(row=7, column=0, columnspan=2, pady=10, sticky=tk.E)
         ttk.Button(btn_box, text="Save Changes", command=save_changes).pack(side=tk.LEFT, padx=5)
         ttk.Button(btn_box, text="Cancel", command=edit_win.destroy).pack(side=tk.LEFT, padx=5)
 
