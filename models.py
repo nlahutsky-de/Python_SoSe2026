@@ -10,29 +10,13 @@ class Transaction:
         self.category = category
         self.amount = float(amount)
         self.date = date                        # format: YYYY-MM-DD
-
-        # Default transaction type
-        self.t_type = "Expense" 
-
-    @property
-    def _parsed_date(self):
-        try:
-            return datetime.strptime(self.date, "%Y-%m-%d")
-        except (ValueError, TypeError):
-            return datetime.now()
-
-    @property
-    def year(self) -> str:
-        return str(self._parsed_date.year)
-
-    @property
-    def month(self) -> str:
-        return f"{self._parsed_date.month:02d}"
-
-    @property
-    def day(self) -> str:
-        return f"{self._parsed_date.day:02d}"
+        self.t_type = "Expense"                 # Default transaction type Can be changed to "Income"
 
     @property
     def period_string(self) -> str:
+        # Used to group transactions by month
+        parts = self.date.split("-")
+        if len(parts) == 3:
+            year, month, _day = parts
+            return f"{year}-{month}"
         return self.date

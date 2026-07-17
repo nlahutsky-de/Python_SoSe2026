@@ -18,7 +18,7 @@ class FinanceApp:
         self._create_display_panel()
         self.refresh_all_views()
 
-    # Adds sample transactions
+    # Add sample transactions
     def _load_seed_data(self):
         self.manager.add_transaction("Income", "Monthly Paycheck", 3200.00, "2026-07-01", "Salary/Inflow")
         self.manager.add_transaction("Expense", "Apartment Rent", 850.00, "2026-07-02", "Housing")
@@ -89,7 +89,7 @@ class FinanceApp:
         self.ledger_tree = ttk.Treeview(self.tab_all, columns=columns, show="headings")
         self.ledger_tree.heading("id", text="ID")
         self.ledger_tree.heading("type", text="Type")
-        self.ledger_tree.heading("period", text="Period (YYYY-MM-DD)")
+        self.ledger_tree.heading("period", text="Period")
         self.ledger_tree.heading("description", text="Description")
         self.ledger_tree.heading("category", text="Category")
         self.ledger_tree.heading("amount", text="Amount")
@@ -125,7 +125,7 @@ class FinanceApp:
         self.notebook.add(self.tab_timeline, text="Timeline Summary")
         
         self.timeline_tree = ttk.Treeview(self.tab_timeline, columns=("period", "income", "expense", "savings"), show="headings")
-        self.timeline_tree.heading("period", text="Month Cycle (YYYY-MM-DD)")
+        self.timeline_tree.heading("period", text="Month Cycle")
         self.timeline_tree.heading("income", text="Total Cash Inflow (€)")
         self.timeline_tree.heading("expense", text="Total Cash Outflow (€)")
         self.timeline_tree.heading("savings", text="Net Monthly Savings (€)")
@@ -155,6 +155,10 @@ class FinanceApp:
             if amount <= 0: raise ValueError
         except ValueError:
             messagebox.showerror("Validation Error", "Please provide a valid, positive currency number.")
+            return
+    
+        if not self._is_valid_date(date_str):
+            messagebox.showerror("Validation Error", "Please provide a valid date using YYYY-MM-DD format.")
             return
 
         self.manager.add_transaction(t_type, desc, amount, date_str, chosen_cat)
@@ -238,7 +242,7 @@ class FinanceApp:
                 keywords_set = {kw.strip().lower() for kw in keywords_str.split(",") if kw.strip()}
 
             # Save backend rules
-            self.manager.create_category(new_cat, set())
+            self.manager.create_category(new_cat)
             if keywords_set:
                 self.manager.add_keywords_to_category(new_cat, keywords_set)
 
