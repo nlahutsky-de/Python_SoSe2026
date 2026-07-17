@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 import re
 from datetime import datetime
-from finance_tracker import ExpenseManager
+from logic import ExpenseManager
 
 class FinanceApp:
     def __init__(self, root: tk.Tk):
