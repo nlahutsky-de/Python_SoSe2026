@@ -41,7 +41,7 @@ The application allows users to:
 
 ## How to Use
 1. Enter the transaction information:
-    - Transaction Typer (Income or Expense)
+    - Transaction Type (Income or Expense)
     - Description
     - Amount
     - Date
