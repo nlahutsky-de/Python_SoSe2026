@@ -6,6 +6,8 @@ Seychelle Ann Dagus, 0508078, Civil Systems Engineering
 
 Tilman Lindvogt, 608371, Humboldt University Economics
 
+Konstantin Krüger, 398013, Produktionstechnik
+
 ## Description:
 Our Peronal Finance Analyzer is a Python desktop application developed using Tkinter.
 The project demonstrates object-oriented programming principles, data management, and graphical user interface (GUI) development using Python.
