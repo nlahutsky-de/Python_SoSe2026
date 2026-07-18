@@ -29,6 +29,7 @@ The application allows users to:
 ├── gui.py              # Tkinter graphical user interface
 ├── logic.py            # Business logic and transaction management
 ├── models.py           # Transaction class
+├── utils.py            # Functions for input validation
 └── README.md
 
 ## Getting Started:
