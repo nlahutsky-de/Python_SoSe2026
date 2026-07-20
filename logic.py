@@ -57,8 +57,7 @@ class ExpenseManager:
 
     
     # ------------ Category management ------------
-    ''' the current category management isn't working correctly. Category keywords are not updated,
-    and there's no ability to create new categories in the GUI. The following section breaks down category management
+    ''' The following section breaks down category management
     in various objects following the single responsibility principle.'''
 
     def categorize_description(self, description: str, t_type: str) -> str:
