@@ -4,6 +4,13 @@ from tkinter import ttk, messagebox, simpledialog
 import re
 from datetime import datetime
 from logic import ExpenseManager
+from utils import (
+    validate_amount,
+    validate_description,
+    validate_date,
+    validate_category
+)
+    
 
 class FinanceApp:
     def __init__(self, root: tk.Tk):
@@ -147,18 +154,16 @@ class FinanceApp:
         chosen_cat = self.cat_combobox.get()
         date_str = self.date_entry.get().strip()
         
-        if not desc:
-            messagebox.showwarning("Validation Error", "Please fill in item description values.")
-            return
         try:
-            amount = float(amt_str)
-            if amount <= 0: raise ValueError
-        except ValueError:
-            messagebox.showerror("Validation Error", "Please provide a valid, positive currency number.")
-            return
-    
-        if not self._is_valid_date(date_str):
-            messagebox.showerror("Validation Error", "Please provide a valid date using YYYY-MM-DD format.")
+            desc = validate_description(desc)
+            amount = validate_amount(amt_str)
+            date_str = validate_date(date_str)
+
+        if chosen_cat != "Auto-Categorize":
+            chosen_cat = validate_category(chosen_cat)
+
+        except ValueError as e:
+            messagebox.showerror("Validation Error", str(e))
             return
 
         self.manager.add_transaction(t_type, desc, amount, date_str, chosen_cat)
@@ -273,12 +278,14 @@ class FinanceApp:
                 return
             
             try:
-                amt = float(edit_amt.get().strip())
-                if amt <= 0: raise ValueError
-            except ValueError:
-                messagebox.showerror("Error", "Invalid numeric tracking amount entry input value.", parent=edit_win)
-                return
-            
+                desc = validate_description(edit_desc.get())
+                amt = validate_amount(edit_amt.get())
+                date_input = validate_date(edit_date_field.get())
+                category = validate_category(edit_cat.get())
+
+            except ValueError as e:
+                messagebox.showerror("Validation Error", str(e), parent=edit_win)
+                return            
         
             self.manager.update_transaction(target_id, edit_type.get(), edit_desc.get().strip(), amt, date_input, edit_cat.get())
             self.refresh_all_views()
