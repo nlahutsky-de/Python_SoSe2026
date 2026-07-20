@@ -191,7 +191,8 @@ class FinanceApp:
 
         keywords_str = simpledialog.askstring(
             "Category Keywords", 
-            f"Enter starting keywords for '{new_cat}' (separated by commas) or leave blank:",
+            f"Enter starting keywords for '{new_cat}' (separated by commas) or leave blank:", 
+            parent=parent
         )
         
         keywords_set = set()
