@@ -305,7 +305,9 @@ class FinanceApp:
 
     def handle_delete_transaction(self):
         selected = self.ledger_tree.selection()
-        if not selected: return
+        if not selected:
+            messagebox.showwarning("Selection Required", "Please select an item to change.")
+            return
         target_id = int(self.ledger_tree.item(selected[0])['values'][0])
         if self.manager.delete_transaction(target_id):
             self.refresh_all_views()
