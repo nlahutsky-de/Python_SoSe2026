@@ -159,8 +159,8 @@ class FinanceApp:
             amount = validate_amount(amt_str)
             date_str = validate_date(date_str)
 
-        if chosen_cat != "Auto-Categorize":
-            chosen_cat = validate_category(chosen_cat)
+            if chosen_cat != "Auto-Categorize":
+                chosen_cat = validate_category(chosen_cat)
 
         except ValueError as e:
             messagebox.showerror("Validation Error", str(e))
