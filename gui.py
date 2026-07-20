@@ -10,7 +10,7 @@ class FinanceApp:
         self.root = root
         self.root.title("Personal Finance Tracker")
         self.root.geometry("1050x700")
-        self.root.minsize(1050, 700)
+        self.root.minsize(400, 400)
         
         self.manager = ExpenseManager()
         self._load_seed_data()
