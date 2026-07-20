@@ -85,8 +85,8 @@ class ExpenseManager:
     def add_keywords_to_category(self, category_name: str, keywords: set) -> None:
         # Create the category if it doesn't exist yet, then merge in the keywords
         if category_name not in self._category_rules:
-            self._category_rules[category_name] =set()
-            self._category_rules[category_name].update(keywords)
+            self._category_rules[category_name] =set()    
+        self._category_rules[category_name].update(keywords)
 
     def assign_keywords_to_category(self, description: str, category_name: str) -> None:
         keywords = self.extract_keywords(description)
