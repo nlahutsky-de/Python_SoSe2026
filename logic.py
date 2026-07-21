@@ -4,7 +4,7 @@ import re
 from typing import Optional
 
 CATEGORY_RULES = {
-    "Groceries": {"grocery", "supermarket", "food"},
+    "Groceries": {"grocery", "supermarket", "food", "market"},
     "Utilities": {"electricity", "water", "gas"},
     "Dining Out": {"restaurant", "dining", "cafe"},
     "Transportation": {"transportation", "bus", "train", "taxi"},

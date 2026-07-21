@@ -27,11 +27,27 @@ class FinanceApp:
 
     # Add sample transactions
     def _load_seed_data(self):
-        self.manager.add_transaction("Income", "Monthly Paycheck", 3200.00, "2026-07-01", "Salary/Inflow")
-        self.manager.add_transaction("Expense", "Apartment Rent", 850.00, "2026-07-02", "Housing")
-        self.manager.add_transaction("Expense", "Electric Utility Bill", 95.00, "2026-07-03", "Utilities")
-        self.manager.add_transaction("Income", "Freelance Coding Design", 450.00, "2026-07-05", "Salary/Inflow")
+        # --- MAY 2026 ---
+        self.manager.add_transaction("Income", "Monthly Paycheck", 3200.00, "2026-05-01", "Salary/Inflow")
+        self.manager.add_transaction("Expense", "Apartment Rent", 850.00, "2026-05-02", "Housing")
+        self.manager.add_transaction("Expense", "Weekly Groceries", 145.50, "2026-05-08", "Groceries")
+        self.manager.add_transaction("Expense", "Train Ticket", 60.00, "2026-05-12", "Transportation")
+        self.manager.add_transaction("Expense", "Dinner with friends", 55.00, "2026-05-20", "Dining Out")
 
+        # --- JUNE 2026 ---
+        self.manager.add_transaction("Income", "Monthly Paycheck", 3200.00, "2026-06-01", "Salary/Inflow")
+        self.manager.add_transaction("Income", "Sold old bicycle", 150.00, "2026-06-03", "Salary/Inflow")
+        self.manager.add_transaction("Expense", "Apartment Rent", 850.00, "2026-06-02", "Housing")
+        self.manager.add_transaction("Expense", "Electric Utility Bill", 95.00, "2026-06-04", "Utilities")
+        self.manager.add_transaction("Expense", "Supermarket run", 180.20, "2026-06-15", "Auto-Categorize") # Will trigger "Groceries"
+        self.manager.add_transaction("Expense", "Downtown cafe", 12.50, "2026-06-22", "Auto-Categorize") # Will trigger "Dining Out"
+
+        # --- JULY 2026 ---
+        self.manager.add_transaction("Income", "Monthly Paycheck", 3200.00, "2026-07-01", "Salary/Inflow")
+        self.manager.add_transaction("Income", "Freelance Coding Design", 450.00, "2026-07-05", "Salary/Inflow")
+        self.manager.add_transaction("Expense", "Apartment Rent", 850.00, "2026-07-02", "Housing")
+        self.manager.add_transaction("Expense", "Water Bill", 45.00, "2026-07-06", "Utilities")
+        self.manager.add_transaction("Expense", "City bus fare", 5.00, "2026-07-10", "Auto-Categorize") # Will trigger "Transportation"
 
     def _create_input_panel(self):
         input_frame = ttk.LabelFrame(self.root, text=" Add Transaction ", padding=15)
