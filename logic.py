@@ -52,6 +52,8 @@ class ExpenseManager:
             t.amount = float(new_amount)
             t.date = new_date
             t.category = new_category
+            if new_category not in ("Auto-Categorize", "Other", "Salary/Inflow"):
+                self.assign_keywords_to_category(new_description, new_category)
             return True
         return False
 
