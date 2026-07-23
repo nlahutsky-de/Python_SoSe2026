@@ -11,7 +11,7 @@ Konstantin Krüger, 398013, Produktionstechnik
 ## Description:
 Our Peronal Finance Analyzer is a Python desktop application developed using Tkinter.
 The project demonstrates object-oriented programming principles, data management, and graphical user interface (GUI) development using Python.
-It helps users record and manage their financila transactions by tracking both income and expenses.
+It helps users record and manage their financial transactions by tracking both income and expenses.
 
 The application allows users to:
 - Add, edit, and delete transactions
@@ -39,6 +39,7 @@ The application allows users to:
     - gui.py
     - logic.py
     - models.py
+    - utils.py
 
 3. Run the application using main.py
 
@@ -55,7 +56,7 @@ The application allows users to:
 5. View the **Timeline Summary** Tab to see the monthly summary of the inflow, outflow, and net savings.
 
 ## Limitations/Bugs
-
+Application does not currently save transaction data and must be re-entered after start. 
 
 
 ## Future improvements
