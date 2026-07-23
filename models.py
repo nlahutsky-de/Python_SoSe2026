@@ -2,7 +2,7 @@
 from datetime import datetime
 
 class Transaction:
-    # primary expense class to hold the data for each expense entry
+    # primary transaction class to hold the data for each transaction entry
     def __init__(self, number: int, description: str, category: str, 
                  amount: float, date: str):
         self.number = number
